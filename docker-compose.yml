@@ -58,6 +58,8 @@ services:
     networks:
       - nextcloud-proxy-tier
       - default
+    links:
+      - mail:gmail-relay
 
   proxy:
     build: ./proxy
@@ -110,7 +112,13 @@ services:
       - VIRTUAL_PORT=9980
       - extra_params=--o:ssl.enable=false --o:ssl.termination=true
       - LETSENCRYPT_HOST=[##myoffice.mooo.com##]
-
+  mail:
+    build: ./gmail-relay
+    restart: always
+    environment:
+      - HOSTNAME=mail.[##mynextcloud.mooo.com##]
+      - EMAIL=[##A REACHABLE EMAIL ADRESS##]
+      - APPPASS=[##GPASS##]
 volumes:
   nextcloud-db:
   nextcloud-data:
