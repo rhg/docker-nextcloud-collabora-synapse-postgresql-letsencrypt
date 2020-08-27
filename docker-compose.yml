@@ -91,27 +91,6 @@ services:
     depends_on:
       - proxy
 
-  collabora:
-    image: collabora/code
-    restart: always
-    networks:
-      - nextcloud-proxy-tier
-    depends_on:
-      - proxy
-    cap_add:
-     - MKNOD
-    ports:
-      - 127.0.0.1:9980:9980
-    environment:
-      # IMPORTANT: Note the backslashs before the dots here (and only here)!
-      - domain=[##mynextcloud\.mooo\.com##]
-      - username=admin
-      - password=[##A SECURE GENERATED PASSWORD##]
-      - VIRTUAL_HOST=[##myoffice.mooo.com##]
-      - VIRTUAL_NETWORK=nextcloud-proxy-tier
-      - VIRTUAL_PORT=9980
-      - extra_params=--o:ssl.enable=false --o:ssl.termination=true
-      - LETSENCRYPT_HOST=[##myoffice.mooo.com##]
   mail:
     build: ./gmail-relay
     restart: always
